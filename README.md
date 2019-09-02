@@ -2,7 +2,9 @@
 Simple reaction entry + greeting bot
 
 ## Setup
+Requires dotnetcore2.1  
 Clone the repository somewhere  
+Run `dotnet restore` to pull down the NuGet packages.  
 Run `run.sh`  
 It should generate a config blank config file and exit  
 Insert your token and other IDs in there, run the script again.  
