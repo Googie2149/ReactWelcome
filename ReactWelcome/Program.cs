@@ -36,9 +36,9 @@ namespace ReactWelcome
         {
             socketClient = new DiscordSocketClient(new DiscordSocketConfig
             {
-                LogLevel = LogSeverity.Verbose,
-                AlwaysDownloadUsers = true,
-                MessageCacheSize = 100
+                LogLevel = LogSeverity.Error,
+                AlwaysDownloadUsers = false,
+                MessageCacheSize = 0
             });
             socketClient.Log += Log;
 
@@ -140,6 +140,8 @@ namespace ReactWelcome
             await user.AddRoleAsync(role);
 
             await welcomeChannel.SendMessageAsync(config.WelcomeString.Replace("$user", user.Mention));
+
+            Log(new LogMessage(LogSeverity.Info, "Welcomer", $"Approved {user.Id}"));
         }
 
         private Task Log(LogMessage msg)
