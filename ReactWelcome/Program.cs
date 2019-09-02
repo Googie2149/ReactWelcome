@@ -124,7 +124,22 @@ namespace ReactWelcome
 
         private async Task Client_ReactionAdded(Cacheable<IUserMessage, ulong> cache, ISocketMessageChannel channel, SocketReaction reaction)
         {
-            
+            // Only listen to reactions in a single channel
+            if (channel.Id != config.GatewayChannelId)
+                return;
+
+            // Only look for the specified reaction
+            if (reaction.Emote.Name != config.AccessReaction)
+                return;
+
+            var user = reaction.User.Value as SocketGuildUser;
+            var guild = (channel as SocketGuildChannel).Guild;
+            var role = guild.GetRole(config.AccessRoleId);
+            var welcomeChannel = guild.GetChannel(config.WelcomeChannelId) as SocketTextChannel;
+
+            await user.AddRoleAsync(role);
+
+            await welcomeChannel.SendMessageAsync(config.WelcomeString.Replace("$user", user.Mention));
         }
 
         private Task Log(LogMessage msg)
